@@ -1,0 +1,128 @@
+# Steel Defect Detection Configuration
+
+# Data Configuration
+data:
+  raw_images_path: "data/raw"
+  labeled_data_path: "data/labeled"
+  processed_images_path: "data/processed"
+  results_path: "results"
+  
+  # Image specifications
+  image_size: [720, 720]
+  image_formats: [".jpg", ".jpeg", ".png", ".bmp"]
+  
+  # Naming convention
+  naming_pattern: "{id}_{camera}.jpg"  # e.g., 01_up.jpg, 01_down.jpg
+  
+# Model Configuration
+model:
+  name: "yolov8"
+  version: "yolov8n"  # yolov8n, yolov8s, yolov8m, yolov8l, yolov8x
+  weights_path: "models/weights"
+  pretrained: true
+  
+  # Training parameters
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.01
+  patience: 10
+  
+  # Inference parameters
+  confidence_threshold: 0.5
+  iou_threshold: 0.45
+  max_detections: 1000
+
+# Defect Categories
+defects:
+  classes:
+    0: "scratch"
+    1: "dent"
+    2: "bend"
+    3: "color_defect"
+    4: "hole"
+    5: "patch"
+    6: "zinc_lumps"
+    7: "coil_break_marks"
+    8: "roll_marks"
+    9: "edge_crack"
+    10: "pitting"
+    11: "inclusion"
+    12: "surface_roughness"
+  
+  colors:  # For visualization
+    0: [255, 0, 0]      # Red - scratch
+    1: [0, 255, 0]      # Green - dent
+    2: [0, 0, 255]      # Blue - bend
+    3: [255, 255, 0]    # Yellow - color_defect
+    4: [255, 0, 255]    # Magenta - hole
+    5: [0, 255, 255]    # Cyan - patch
+    6: [128, 128, 128]  # Gray - zinc_lumps
+    7: [255, 165, 0]    # Orange - coil_break_marks
+    8: [128, 0, 128]    # Purple - roll_marks
+    9: [255, 192, 203]  # Pink - edge_crack
+    10: [0, 128, 128]   # Teal - pitting
+    11: [128, 128, 0]   # Olive - inclusion
+    12: [255, 20, 147]  # Deep pink - surface_roughness
+
+# Camera Configuration
+cameras:
+  top:
+    id: "top"
+    suffix: "_up"
+    position: "top"
+  bottom:
+    id: "bottom"
+    suffix: "_down"
+    position: "bottom"
+
+# Processing Configuration
+processing:
+  batch_size: 32
+  save_images: true
+  save_crops: false
+  
+  # Performance targets
+  target_fps: 1  # frames per second
+  max_processing_time: 1.0  # seconds per image
+  
+# Output Configuration
+output:
+  format: "csv"  # csv, json, database
+  csv_path: "results/detections.csv"
+  database_path: "results/detections.db"
+  
+  # CSV columns
+  csv_columns:
+    - "timestamp"
+    - "image_id"
+    - "camera"
+    - "defect_type"
+    - "x"
+    - "y"
+    - "width"
+    - "height"
+    - "confidence"
+    - "area"
+
+# UI Configuration (optional)
+ui:
+  title: "Steel Defect Detection System"
+  port: 8501
+  host: "localhost"
+  
+  # Dashboard settings
+  show_confidence: true
+  show_bounding_boxes: true
+  auto_refresh: false
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file: "logs/steel_defect.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+# System Configuration
+system:
+  device: "auto"  # auto, cpu, cuda, mps
+  num_workers: 4
+  pin_memory: true

@@ -1,0 +1,35 @@
+{
+  "dataset_name": "NEU Steel Surface Defect Dataset",
+  "classes": {
+    "0": "scratch",
+    "1": "dent",
+    "2": "bend",
+    "3": "color_defect",
+    "4": "hole",
+    "5": "patch"
+  },
+  "class_mapping": {
+    "crazing": 0,
+    "inclusion": 5,
+    "patches": 5,
+    "pitted_surface": 4,
+    "rolled-in_scale": 3,
+    "scratches": 0
+  },
+  "instructions": [
+    "1. Download NEU dataset from: https://faculty.neu.edu.cn/yunhyan/NEU_surface_defect_database.html",
+    "2. Extract the dataset",
+    "3. Run: python scripts/convert_neu_dataset.py --input <neu_path> --output data/labeled",
+    "4. The dataset will be converted to YOLO format automatically"
+  ],
+  "alternative_sources": [
+    "Kaggle: Search for 'NEU Steel Surface Defect'",
+    "GitHub: Several repositories host this dataset",
+    "Academic papers often provide links"
+  ],
+  "quick_download_links": [
+    "https://www.kaggle.com/datasets/kaustubhdikshit/neu-surface-defect-database",
+    "https://github.com/abin24/Surface-Defect-Detection",
+    "Direct link: http://faculty.neu.edu.cn/yunhyan/NEU_surface_defect_database.html"
+  ]
+}

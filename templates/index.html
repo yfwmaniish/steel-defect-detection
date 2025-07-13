@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Defect Detection Dashboard</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1><i class="fas fa-industry"></i> Steel Defect Detection System</h1>
+            <div class="nav-status">
+                <span class="status-indicator" id="systemStatus">
+                    <i class="fas fa-circle"></i> System Ready
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <h2><i class="fas fa-cog"></i> Control Panel</h2>
+            
+            <!-- Camera Controls -->
+            <div class="control-section">
+                <h3><i class="fas fa-video"></i> Camera Controls</h3>
+                <div class="control-buttons">
+                    <button id="startCamera" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Start Camera
+                    </button>
+                    <button id="stopCamera" class="btn btn-secondary" disabled>
+                        <i class="fas fa-stop"></i> Stop Camera
+                    </button>
+                    <button id="captureImage" class="btn btn-accent" disabled>
+                        <i class="fas fa-camera"></i> Capture
+                    </button>
+                </div>
+                
+                <div class="control-options">
+                    <div class="option-group">
+                        <label for="cameraSelect">Camera Source:</label>
+                        <select id="cameraSelect">
+                            <option value="0">Built-in Camera</option>
+                            <option value="1">External Camera</option>
+                            <option value="file">Upload Image</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="confidenceSlider">Detection Confidence:</label>
+                        <input type="range" id="confidenceSlider" min="0.1" max="1" value="0.5" step="0.1">
+                        <span id="confidenceValue">0.5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detection Controls -->
+            <div class="control-section">
+                <h3><i class="fas fa-search"></i> Detection Settings</h3>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="enableDetection" checked>
+                        <span>Enable Real-time Detection</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="enableAlerts" checked>
+                        <span>Enable Alerts</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="saveDetections" checked>
+                        <span>Save Detection Images</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="control-section">
+                <h3><i class="fas fa-upload"></i> File Upload</h3>
+                <div class="file-upload-container">
+                    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                    <button id="uploadButton" class="btn btn-outline">
+                        <i class="fas fa-upload"></i> Upload Image
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Feed -->
+        <div class="live-feed-container">
+            <h2><i class="fas fa-camera"></i> Live Feed</h2>
+            <div class="video-container">
+                <video id="videoFeed" autoplay muted></video>
+                <canvas id="detectionCanvas" style="display: none;"></canvas>
+                <div class="video-overlay">
+                    <div class="fps-counter">FPS: <span id="fpsDisplay">0</span></div>
+                    <div class="detection-count">Detections: <span id="detectionCount">0</span></div>
+                </div>
+            </div>
+            
+            <!-- Detection Results -->
+            <div class="detection-results" id="detectionResults">
+                <h3><i class="fas fa-exclamation-triangle"></i> Current Detections</h3>
+                <div id="detectionList" class="detection-list">
+                    <p class="no-detections">No defects detected</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Dashboard -->
+        <div class="stats-container">
+            <h2><i class="fas fa-chart-bar"></i> Statistics</h2>
+            
+            <!-- Real-time Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-bug"></i></div>
+                    <div class="stat-content">
+                        <h3>Total Defects</h3>
+                        <p class="stat-number" id="totalDefects">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-images"></i></div>
+                    <div class="stat-content">
+                        <h3>Images Processed</h3>
+                        <p class="stat-number" id="imagesProcessed">0</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-content">
+                        <h3>Uptime</h3>
+                        <p class="stat-number" id="uptime">00:00:00</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-percentage"></i></div>
+                    <div class="stat-content">
+                        <h3>Detection Rate</h3>
+                        <p class="stat-number" id="detectionRate">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Defect Types Chart -->
+            <div class="chart-container">
+                <h3><i class="fas fa-pie-chart"></i> Defect Types Distribution</h3>
+                <canvas id="defectChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert System -->
+    <div id="alertContainer" class="alert-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="static/js/dashboard.js"></script>
+    <script src="static/js/camera.js"></script>
+    <script src="static/js/detection.js"></script>
+    <script src="static/js/statistics.js"></script>
+</body>
+</html>

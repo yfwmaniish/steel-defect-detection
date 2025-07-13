@@ -1,0 +1,10 @@
+path: C:\Users\manis\steel-defect-detection\data\sample
+train: images
+val: images
+names:
+  0: scratch
+  1: dent
+  2: bend
+  3: color_defect
+  4: hole
+  5: patch

@@ -1,0 +1,38 @@
+# Core Dependencies
+ultralytics>=8.0.0      # YOLOv8
+opencv-python>=4.5.0    # Computer Vision
+numpy>=1.21.0           # Numerical computations
+pandas>=1.3.0           # Data manipulation
+pillow>=8.3.0           # Image processing
+matplotlib>=3.5.0       # Visualization
+seaborn>=0.11.0         # Statistical visualization
+
+# Machine Learning
+torch>=1.12.0           # PyTorch (YOLOv8 dependency)
+torchvision>=0.13.0     # Computer vision models
+scikit-learn>=1.0.0     # ML utilities
+
+# Data Storage
+sqlite3                 # Database (built-in)
+sqlalchemy>=1.4.0       # Database ORM
+
+# Optional UI
+streamlit>=1.15.0       # Web UI framework
+plotly>=5.10.0          # Interactive plots
+
+# Development
+jupyter>=1.0.0          # Notebooks
+ipykernel>=6.0.0        # Jupyter kernel
+black>=22.0.0           # Code formatting
+pytest>=7.0.0           # Testing
+
+# Utilities
+tqdm>=4.64.0            # Progress bars
+pyyaml>=6.0             # Configuration files
+python-dotenv>=0.19.0   # Environment variables
+argparse                # Command line parsing (built-in)
+pathlib                 # Path handling (built-in)
+
+# Web Dashboard
+Flask>=2.0.0            # Web server framework
+Flask-SocketIO>=5.3.0   # WebSockets support

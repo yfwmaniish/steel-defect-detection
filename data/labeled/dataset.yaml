@@ -1,0 +1,13 @@
+path: C:/Users/manis/steel-defect-detection/data/labeled
+train: train/images
+val: validation/images
+
+names:
+  0: crazing
+  1: inclusion
+  2: patches
+  3: pitted_surface
+  4: rolled-in_scale
+  5: scratches
+
+nc: 6

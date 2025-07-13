@@ -1,0 +1,41 @@
+[Unit]
+Description=Steel Defect Detection Edge Device
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/steel-defect-detection
+ExecStart=/usr/bin/python3 deployment/edge_detector.py
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=steel-defect-detection
+
+# Environment variables
+Environment=PYTHONPATH=/home/pi/steel-defect-detection
+Environment=CONFIG_FILE=/home/pi/steel-defect-detection/deployment/config/edge_config.yaml
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/home/pi/steel-defect-detection/data
+ReadWritePaths=/home/pi/steel-defect-detection/logs
+ReadWritePaths=/home/pi/steel-defect-detection/inference_results
+
+# Resource limits
+LimitNOFILE=65536
+MemoryLimit=2G
+CPUQuota=80%
+
+# Watchdog
+WatchdogSec=60
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

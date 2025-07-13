@@ -1,0 +1,115 @@
+# Steel Defect Detection - Edge Configuration
+# Configuration file for edge device deployment
+
+# Camera settings
+camera:
+  device_id: 0  # 0 for built-in camera, adjust for USB cameras
+  resolution: [1920, 1080]  # [width, height]
+  fps: 30
+  exposure: auto  # auto, manual, or specific value
+  focus: auto     # auto, manual, or specific value
+  brightness: 50  # 0-100
+  contrast: 50    # 0-100
+
+# AI Model configuration
+ai_model:
+  model_path: "models/steel_defect_advanced.pt"
+  confidence_threshold: 0.5  # Detection confidence threshold (0.0-1.0)
+  nms_threshold: 0.4         # Non-maximum suppression threshold
+  input_size: 640            # Model input size (pixels)
+  max_detections: 100        # Maximum detections per image
+
+# Hardware GPIO pins (Raspberry Pi)
+hardware:
+  status_led_pin: 18      # Green LED for system status
+  error_led_pin: 19       # Red LED for errors/defects
+  buzzer_pin: 20          # Buzzer for audio alerts
+  trigger_button_pin: 21  # Manual inspection button
+  relay_pin: 22           # Relay for external control
+  emergency_stop_pin: 23  # Emergency stop button
+
+# Alert system configuration
+alerts:
+  visual: true        # Enable LED indicators
+  audio: true         # Enable buzzer alerts
+  email: false        # Enable email notifications
+  sms: false          # Enable SMS notifications
+  webhook: false      # Enable webhook notifications
+
+# Inspection settings
+inspection:
+  continuous_mode: false    # Auto-trigger inspections
+  interval_seconds: 10      # Seconds between auto inspections
+  save_all_images: true     # Save images even without defects
+  max_storage_gb: 10        # Maximum storage for images (GB)
+  auto_cleanup: true        # Auto-delete old images
+
+# Network settings
+network:
+  enable_api: true          # Enable REST API
+  api_port: 8080           # API server port
+  enable_mqtt: false       # Enable MQTT integration
+  mqtt_broker: "localhost" # MQTT broker address
+  mqtt_port: 1883          # MQTT port
+  mqtt_topic: "factory/quality/defects"
+
+# Database configuration
+database:
+  type: "sqlite"                    # sqlite, mysql, postgresql
+  path: "data/inspections.db"       # SQLite database path
+  max_records: 10000               # Maximum records to keep
+  backup_enabled: true             # Enable automatic backups
+  backup_interval_hours: 24        # Backup interval
+
+# Logging configuration
+logging:
+  level: "INFO"                    # DEBUG, INFO, WARNING, ERROR
+  file: "logs/edge_detector.log"   # Log file path
+  max_file_size_mb: 100           # Maximum log file size
+  backup_count: 5                 # Number of backup log files
+  console_output: true            # Also log to console
+
+# System monitoring
+monitoring:
+  enable_watchdog: true           # Enable system watchdog
+  heartbeat_interval: 30          # Heartbeat interval (seconds)
+  restart_on_failure: true       # Auto-restart on failure
+  max_restarts: 5                # Maximum restart attempts
+
+# Performance settings
+performance:
+  cpu_limit_percent: 80          # Maximum CPU usage
+  memory_limit_mb: 2048          # Maximum memory usage
+  gpu_acceleration: true         # Use GPU if available
+  threading: true                # Enable multi-threading
+  worker_threads: 2              # Number of worker threads
+
+# Security settings
+security:
+  enable_auth: false             # Enable API authentication
+  api_key: "your-api-key-here"   # API key for authentication
+  allowed_ips: ["127.0.0.1"]     # Allowed IP addresses
+  ssl_enabled: false             # Enable SSL/TLS
+  ssl_cert_path: ""             # SSL certificate path
+  ssl_key_path: ""              # SSL private key path
+
+# Quality control thresholds
+quality:
+  pass_threshold: 0             # Maximum defects for PASS
+  confidence_threshold: 0.7     # Minimum confidence for valid detection
+  size_threshold: 100           # Minimum defect size (pixels)
+  reject_on_error: true         # Reject on processing errors
+
+# Calibration settings
+calibration:
+  auto_white_balance: true      # Auto white balance
+  auto_exposure: true           # Auto exposure
+  lens_correction: false        # Enable lens distortion correction
+  color_correction: false       # Enable color correction
+  
+# Maintenance settings
+maintenance:
+  auto_update: false            # Enable automatic updates
+  update_check_interval: 24     # Hours between update checks
+  backup_before_update: true    # Backup before updates
+  rollback_enabled: true        # Enable rollback on failure
